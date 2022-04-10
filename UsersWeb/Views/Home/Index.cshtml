@@ -38,8 +38,10 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        @Html.CheckBox("AllCheck", new { @class = "form-check-input checkAll", @onchange = "Selectall()" })
-                        <small>Select/Reset all</small>
+                        <div class="d-flex justify-content-center">
+                            @Html.CheckBox("AllCheck", new { @class = "form-check-input checkAll", @onchange = "Selectall()" })
+                            <small>Select/Reset all</small>
+                        </div>
                     </th>
                     <th scope="col">Name</th>
                     <th scope="col">Mail</th>
@@ -53,9 +55,9 @@
                 {
                     <tr>
                         <td>
-                            <div class = "justify-content-center" flex-direction: row>
-                            @Html.CheckBoxFor(x => x[i].IsChecked, new { @class = "form-check-input check" })
-                            @Html.HiddenFor(x => x[i].Mail)
+                            <div class="d-flex justify-content-center">
+                                @Html.CheckBoxFor(x => x[i].IsChecked, new { @class = "form-check-input check" })
+                                @Html.HiddenFor(x => x[i].Mail)
                             </div>
                         </td>
                         <td>@user.UserName</td>

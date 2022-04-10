@@ -19,6 +19,21 @@ namespace UsersWeb.Controllers
             return View(db.Users.ToList());
         }
 
+        private void DoAction(User u, string action)
+        {
+            switch (action)
+            {
+                case "Delete":
+                    db.Users.Remove(u);
+                    break;
+                case "Block":
+                case "Unblock":
+                    u.Status = action == "Block" ? Status.Blocked : Status.Avaliable;
+                    db.Users.Update(u);
+                    break;
+            }
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Index(List<User> users, string? action)
@@ -32,20 +47,10 @@ namespace UsersWeb.Controllers
                 {
                     return View("Error");
                 }
-                switch (action)
-                {
-                    case "Delete":
-                        db.Users.Remove(u);
-                        break;
-                    case "Block":
-                    case "Unblock":
-                        u.Status = action == "Block" ? Status.Blocked : Status.Avaliable;
-                        db.Users.Update(u);
-                        break;
-                }
+                DoAction(u, action);
             }
 
-            if (users.Where(x => x.IsChecked).ToList().Exists(x => x.Mail == loginedUser.Mail))
+            if (action != "Unblock" && users.Where(x => x.IsChecked).ToList().Exists(x => x.Mail == loginedUser.Mail))
             {
                 return await Logout();
             }
