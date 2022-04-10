@@ -53,7 +53,12 @@ namespace UsersWeb.Controllers
             {
                 return null;
             }
-            return GetUserByMail(User.Identity.Name);
+            User? user = GetUserByMail(User.Identity.Name);
+            if (user != null && user.Status == Status.Blocked)
+            {
+                user = null;
+            }
+            return user;
         }
     }
 }

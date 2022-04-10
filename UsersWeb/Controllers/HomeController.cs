@@ -12,10 +12,12 @@ namespace UsersWeb.Controllers
         {
         }
 
-        [Authorize]
         [HttpGet]
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
+            User? loginedUser = GetAuthenticatedUser();
+            if (loginedUser == null) return await Logout();
             return View(db.Users.ToList());
         }
 
@@ -34,12 +36,13 @@ namespace UsersWeb.Controllers
             }
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Index(List<User> users, string? action)
         {
             User? loginedUser = GetAuthenticatedUser();
-            if (users == null || action == null || loginedUser == null) return View("Error");
+            if (loginedUser == null) return await Logout();
+            if (users == null || action == null) return View("Error");
             
             foreach (User user in users.Where(x => x.IsChecked).ToList()) {
                 User? u = GetUserByMail(user.Mail);
