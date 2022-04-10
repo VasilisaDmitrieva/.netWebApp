@@ -1,0 +1,22 @@
+﻿@model UsersWeb.Models.View.LoginModel
+ 
+<h2>Login</h2>
+ 
+<a asp-action="Register" asp-controller="Account">Register</a>
+ 
+<form asp-action="Login" asp-controller="Account">
+    <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+    <div>
+       <div class="form-group">
+            <label asp-for="Mail">Email</label>
+            <input class="form-control" type="text" asp-for="Mail" placeholder="Enter Email" />
+            <span asp-validation-for="Mail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Password</label>
+            <input class="form-control" asp-for="Password" placeholder="Enter Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Login" class="btn btn-primary" />
+    </div>
+</form>
